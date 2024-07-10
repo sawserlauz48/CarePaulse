@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from './button'
-import { Divide } from 'lucide-react'
 import Image from 'next/image'
 
 interface ButtonProps {

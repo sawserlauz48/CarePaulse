@@ -3,8 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
-import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -14,10 +12,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import CustomFormField from "../ui/CustomFormField"
 import SubmitButton from "../ui/SubmitButton"
 import { useState } from "react"
+import { UserFromValidtion } from "@/lib/validation"
+import { useRouter } from "next/navigation"
 
 export enum FormFieldType {
   INPUT = 'imput',
@@ -31,26 +30,32 @@ export enum FormFieldType {
 }
 
  
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
+
  
 const PatientForm = () => {
-
+    const router = useRouter
     const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof UserFromValidtion>>({
+    resolver: zodResolver(UserFromValidtion),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      phone: "",
     },
   })
  
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  function onSubmit({name , email, phone}: z.infer<typeof UserFromValidtion>) {
+    setIsLoading(true);
+
+    try {
+      // const userData = {name , email, phone}
+      // const user = await createUser(userData)
+      // if(user) router.push(`/patients/${user.$id}/register`)
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
   return (
     <Form {...form}>
