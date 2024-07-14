@@ -11,9 +11,12 @@ import { UserFromValidtion } from "@/lib/validation"
 import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm"
-import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
-import { GenderOptions } from "@/constants"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Doctors, GenderOptions, IdentificationTypes } from "@/constants"
 import { Label } from "../ui/label"
+import { SelectItem } from "../ui/select"
+import Image from "next/image"
+import FileUploader from "../ui/FileUploader"
 
  
 const RegisterForm = ( {user}:{user : User}) => {
@@ -79,6 +82,65 @@ const RegisterForm = ( {user}:{user : User}) => {
                         </FormControl> 
                     )} />
                 </div>
+        
+{/* Address & Occupation */}
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField control={form.control} fieldType={FormFieldType.INPUT} name="address" label="Address" placeholder="14 Street, Tel Aviv" />
+                    <CustomFormField control={form.control} fieldType={FormFieldType.PHONE_INPUT} name="occupation" label="Occupation" placeholder="Software Engieer" />
+                </div>
+{/* Address & Occupation */}
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField control={form.control} fieldType={FormFieldType.INPUT} name="emergencyContactName" label="Emergency Contact Name" placeholder="Guardian's Name" />
+                    <CustomFormField control={form.control} fieldType={FormFieldType.PHONE_INPUT} name="emergencyContactNumber" label="emergency Contact Number" placeholder="(555) 123-4567" iconSrc="/assets/icons/email.svg" iconAlt="email" />
+                </div>
+        <section className="space-y-6">
+            <div className="mb-9 space-y-1">
+                <h2 className="sub-header">Medical Information</h2>
+            </div>
+        </section>
+{/* Primary Physicin */}
+                    <CustomFormField control={form.control} fieldType={FormFieldType.SELECT} name="primaryPhysicin" label="Primary Physicin" placeholder="Select a physician" >
+                        {Doctors.map((doctor)=>(<SelectItem key={doctor.name} value={doctor.name}>
+                            <div className="flex cursor-pointer items-center gap-2">
+                                <Image src={doctor.image} width={32} height={32} alt={doctor.name} className="rounded-full border border-dark-500" />
+                                <p>{doctor.name}</p>
+                            </div></SelectItem>))}
+                    </CustomFormField>
+{/* Primary Physicin & Occupation */}
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField control={form.control} fieldType={FormFieldType.INPUT} name="insuranceProvider" label="Insurance Provider" placeholder="Clalit" />
+                    <CustomFormField control={form.control} fieldType={FormFieldType.PHONE_INPUT} name="insurancePolicyNumber" label="Insurance Policy Number" placeholder="ABCD123456" />
+                </div>
+{/* Allergies & Current Medication */}
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField control={form.control} fieldType={FormFieldType.TEXTAREA} name="allergies" label="Allergies (if any)" placeholder="Pollen, Penuts, Penicillin" />
+                    <CustomFormField control={form.control} fieldType={FormFieldType.TEXTAREA} name="currentMedication" label="Current Medication (if any)" placeholder="Ibuprofen 200mg, Paracetamol 500mg" />
+                </div>
+{/* Family Medical History & Past Medical History */}
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField control={form.control} fieldType={FormFieldType.TEXTAREA} name="familyMedicalHistory" label="Family Medical History" placeholder="if any" />
+                    <CustomFormField control={form.control} fieldType={FormFieldType.TEXTAREA} name="pastMedicalHistory" label="Past Medical History" placeholder="if any" />
+                </div>
+        <section className="space-y-6">
+            <div className="mb-9 space-y-1">
+                <h2 className="sub-header">Identifction and Verification</h2>
+            </div>
+        </section>
+{/* Identifction Type & Identifction Number */}
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField control={form.control} fieldType={FormFieldType.SELECT} name="identifctionType" label="Identifction Type" placeholder="Select Identifction Type" >
+                        {IdentificationTypes.map((type)=>(<SelectItem key={type} value={type} >
+                            {type}
+                            </SelectItem>))}
+                    </CustomFormField>
+                    <CustomFormField control={form.control} fieldType={FormFieldType.INPUT} name="identifctionNumber" label="Identifction Number" placeholder="123456789" />
+                    <CustomFormField control={form.control} fieldType={FormFieldType.SKELETON} name="identifctionDocument" label="Identifction Document" renderSkeleton={(field)=> (
+                        <FormControl>
+                            <FileUploader />
+                        </FormControl> 
+                    )} />
+                </div>
+
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
