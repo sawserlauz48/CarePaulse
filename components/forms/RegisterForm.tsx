@@ -136,11 +136,18 @@ const RegisterForm = ( {user}:{user : User}) => {
                     <CustomFormField control={form.control} fieldType={FormFieldType.INPUT} name="identifctionNumber" label="Identifction Number" placeholder="123456789" />
                     <CustomFormField control={form.control} fieldType={FormFieldType.SKELETON} name="identifctionDocument" label="Identifction Document" renderSkeleton={(field)=> (
                         <FormControl>
-                            <FileUploader />
+                            <FileUploader files={field.value} onChange={field.onChange}/>
                         </FormControl> 
                     )} />
                 </div>
-
+                <section className="space-y-6">
+            <div className="mb-9 space-y-1">
+                <h2 className="sub-header">Consent and Privacy</h2>
+            </div>
+        </section>
+        <CustomFormField control={form.control} fieldType={FormFieldType.CHECKBOX} name="treatmentConsent" label="I consent to treatment" />
+        <CustomFormField control={form.control} fieldType={FormFieldType.CHECKBOX} name="disclosureConsent" label="I consent to disclosure inforamtion" />
+        <CustomFormField control={form.control} fieldType={FormFieldType.CHECKBOX} name="privcyConsent" label="I consent to privcy policy" />
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
