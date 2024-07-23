@@ -1,4 +1,5 @@
 "use-clinet"
+import { E164Number } from "libphonenumber-js/core";
 import React from 'react'
 import { Button } from "@/components/ui/button"
 import {
@@ -108,7 +109,7 @@ const RenderField = ({field ,props}: {field : any; props : CustomProps}) =>{
             return (
                 <FormControl>
                     <div className='flex items-center gap-4'>
-                        <Checkbox id={name} checked={field.value} onCheckedChange={field.onChange}/>
+                        <Checkbox id={props.name} checked={field.value} onCheckedChange={field.onChange}/>
                         <label htmlFor={props.name} className='checkbox-label'>
                             {props.label}
                         </label>
